@@ -126,7 +126,7 @@ public class ClientGUI extends javax.swing.JFrame {
     
     private void grandulon() {       
         
-        if (listaNodo == null){
+        if (lista_array_ips.isEmpty()){
             this.levantarServidor();
         }
         else {
@@ -428,7 +428,7 @@ public class ClientGUI extends javax.swing.JFrame {
         this.jButtonAdminConsole.setVisible(true);
     }
     
-    public void disposeServerResources() {
+    private void disposeServerResources() {
         servidor = false;
         this.jLabelServer.setVisible(false);
         this.jButtonAdminConsole.setVisible(false);
