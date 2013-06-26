@@ -303,7 +303,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     lista_array_ips = listaNodo.getListaIps();
                     ClientGUI.UpdateIpList.sleep(1000);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    grandulon();
+                    //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
