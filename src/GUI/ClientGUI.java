@@ -99,10 +99,11 @@ public class ClientGUI extends javax.swing.JFrame {
             System.out.println("Ip Local: " + ipLocal);                    
             
         } catch (SocketException ex) {
+            System.out.println("No se pudo determinar la ipLocal");
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }       
         
-        ipServidor = connectionRMI(ipServidor);
+        this.connectionRMI();
        
         //Imprimiendo la lista de ip dentro de la variable lista_array_ips
         for(int i = 0;i<lista_array_ips.size();i++){
@@ -222,8 +223,9 @@ public class ClientGUI extends javax.swing.JFrame {
 
             System.out.println("Servidor encendido en: " + ipLocal);
 
-            registro = LocateRegistry.getRegistry(ipLocal, 1099);
-            listaNodo = (IRemoto) registro.lookup("Nodos");
+            //registro = LocateRegistry.getRegistry(ipLocal, 1099);
+            //listaNodo = (IRemoto) registro.lookup("Nodos");
+            this.connectionRMI();
             
             this.showServerResources();
             
@@ -245,8 +247,6 @@ public class ClientGUI extends javax.swing.JFrame {
                                 
         } catch (RemoteException ex) {
             Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -256,30 +256,34 @@ public class ClientGUI extends javax.swing.JFrame {
     }
     
     //metodo usado por la clase ciente_nodo para refrescar la interfaz
-    private String connectionRMI(String ip_nodo) {
-        try {
-            registro = LocateRegistry.getRegistry(ipServidor, 1099);
-            listaNodo = (IRemoto) registro.lookup("Nodos");
-            
-            //Se anade la ipLocal al arreglo global de los clientes y
-            //se obtiene el arreglo global de las IP's de los clientes
-            //conectados.
-            listaNodo.setListaIps(ipLocal);
-            lista_array_ips = listaNodo.getListaIps();
+    private void connectionRMI() {
+        //Se utiliza REGEX para validar si es una IP o si es localhost.
+        if (ipServidor.matches("\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b") || 
+                ipServidor.equals("localhost")) {
+            try {
+                registro = LocateRegistry.getRegistry(ipServidor, 1099);
+                listaNodo = (IRemoto) registro.lookup("Nodos");
 
-        } catch (NotBoundException ex) {
-            Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-    
-            //this.levantarServidor();
-            this.grandulon();
+                //Se anade la ipLocal al arreglo global de los clientes.
+                listaNodo.setListaIps(ipLocal);
+                //Se obtiene el arreglo global de las IP's de los clientes
+                //conectados.
+                lista_array_ips = listaNodo.getListaIps();
+
+            } catch (NotBoundException ex) {
+                Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RemoteException ex) {
+
+                //this.levantarServidor();
+                this.grandulon();
+            }
         }
         
-        //Se utiliza REGEX para validar si es una IP o si es localhost.
-        if (ip_nodo.matches("\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b") || ip_nodo.equals("localhost"))
-            return ip_nodo;
+        else {
+            JOptionPane.showMessageDialog(this, "Introduzca una IP valida");
+        }
         
-        return "";
+        
     }
     
     //metodo usado por la clase clientGUI para refrescar la interfaz
@@ -851,7 +855,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
             } catch (RemoteException ex) {
                 this.levantarServidor();
-                this.connectionRMI(ipServidor);
+                this.connectionRMI();
                 Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -885,7 +889,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 mostrarInformacionNodo();
             } catch (RemoteException ex) {
                 this.levantarServidor();
-                this.connectionRMI(ipServidor);
+                this.connectionRMI();
                 //Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
