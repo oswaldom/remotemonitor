@@ -176,6 +176,24 @@ public class ClientGUI extends javax.swing.JFrame {
             if (ipServidor.equals(ipLocal)) {
                 this.levantarServidor();
             }
+            else {
+                this.connectionRMI();
+                
+            }
+            
+            if (socket != null){
+                try {
+                    socket.close();
+                    socket = new Socket(ipServidor, PORT);
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                control = new ControlClient(socket, this, nick, sala);
+                control.setNick(nick);
+                
+            }
 
             System.out.println("Ip Nuevo Servidor: " + ipServidor);
         }
@@ -230,27 +248,9 @@ public class ClientGUI extends javax.swing.JFrame {
             this.showServerResources();
             
             servidor = true;
-            
-            if (socket != null){
-                socket.close();
-                try {
-                    socket = new Socket(ipLocal, PORT);
-                } catch (UnknownHostException ex) {
-                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                control = new ControlClient(socket, this, nick, sala);
-                control.setNick(nick);
-                
-            }
-                                
-        } catch (RemoteException ex) {
-            Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                            
         } catch (InterruptedException ex) {
             Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             
     }
