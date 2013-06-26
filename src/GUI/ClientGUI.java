@@ -132,47 +132,60 @@ public class ClientGUI extends javax.swing.JFrame {
     }
     
     private void grandulon() {       
-        try {        
-            listaNodo.removeListaIps(ipServidor);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            lista_array_ips = listaNodo.getListaIps();
-        } catch (RemoteException ex) {
-            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-        ArrayList<Integer> lista_ultimos_octetos = new ArrayList<Integer>();
-        String ip_actual = null;
-        
-        for(int i = 0;i<lista_array_ips.size();i++) {
-            ip_actual = lista_array_ips.get(i);            
-            String[] octetos = ip_actual.split("\\.");           
-            
-            int ultimo_octeto = Integer.parseInt(octetos[3]);
-            //Porque va de 0 a 3, el 4to octeto es el que se agarra
-                       
-            lista_ultimos_octetos.add(ultimo_octeto);
+        if (listaNodo == null){
+            this.levantarServidor();
         }
-            
-        //Algoritmo para sacar el octeto mayor de la lista de octetos
-        Integer octeto_mayor = lista_ultimos_octetos.get(0);
-            
-        for(int i = 0;i<lista_ultimos_octetos.size();i++) {
-            if(lista_ultimos_octetos.get(i) > octeto_mayor) 
-                octeto_mayor = lista_ultimos_octetos.get(i);
-        }
-            
-        //Extrayendo la ip con el octeto mayor
-        for(int i = 0;i<lista_array_ips.size();i++) {
-            ip_actual = lista_array_ips.get(i);
-            if(ip_actual.endsWith(octeto_mayor.toString())) {
-                ipServidor = ip_actual;
-                connectionRMI(ipServidor);
-                break;
+        else {
+            lista_array_ips.remove(ipServidor);
+//            try { 
+//                //listaNodo.removeListaIps(ipServidor);
+//                lista_array_ips.remove(ipServidor);
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            try {
+//                lista_array_ips = listaNodo.getListaIps();
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+
+            ArrayList<Integer> lista_ultimos_octetos = new ArrayList<Integer>();
+            String ip_actual = null;
+
+            for(int i = 0;i<lista_array_ips.size();i++) {
+                ip_actual = lista_array_ips.get(i);            
+                String[] octetos = ip_actual.split("\\.");           
+
+                int ultimo_octeto = Integer.parseInt(octetos[3]);
+                //Porque va de 0 a 3, el 4to octeto es el que se agarra
+
+                lista_ultimos_octetos.add(ultimo_octeto);
             }
-        }           
+
+            //Algoritmo para sacar el octeto mayor de la lista de octetos
+            Integer octeto_mayor = lista_ultimos_octetos.get(0);
+
+            for(int i = 0;i<lista_ultimos_octetos.size();i++) {
+                if(lista_ultimos_octetos.get(i) > octeto_mayor) 
+                    octeto_mayor = lista_ultimos_octetos.get(i);
+            }
+
+            //Extrayendo la ip con el octeto mayor
+            for(int i = 0;i<lista_array_ips.size();i++) {
+                ip_actual = lista_array_ips.get(i);
+                if(ip_actual.endsWith(octeto_mayor.toString())) {
+                    ipServidor = ip_actual;
+                    break;
+                }
+            }
+            
+            if (ipServidor.equals(ipLocal)) {
+                this.levantarServidor();
+            }
+
+            System.out.println("ip Serv Nueva: " + ipServidor);
+        }
     }
     
     private static String getFirstNonLoopbackAddress() throws SocketException {
@@ -255,13 +268,19 @@ public class ClientGUI extends javax.swing.JFrame {
         try {
             registro = LocateRegistry.getRegistry(ipServidor, 1099);
             listaNodo = (IRemoto) registro.lookup("Nodos");
+            
+            //Se anade la ipLocal al arreglo global de los clientes y
+            //se obtiene el arreglo global de las IP's de los clientes
+            //conectados.
+            listaNodo.setListaIps(ipLocal);
+            lista_array_ips = listaNodo.getListaIps();
 
         } catch (NotBoundException ex) {
             Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
-            
-            this.levantarServidor();
-            
+    
+            //this.levantarServidor();
+            this.grandulon();
         }
         
         //Se utiliza REGEX para validar si es una IP o si es localhost.
