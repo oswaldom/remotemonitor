@@ -127,6 +127,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private void grandulon() {       
         
         if (lista_array_ips.isEmpty()){
+            System.out.println("LISTA DE IP'S ESTA VACIA");
             this.levantarServidor();
         }
         else {
@@ -168,6 +169,7 @@ public class ClientGUI extends javax.swing.JFrame {
             for(int i = 0;i<lista_array_ips.size();i++) {
                 ip_actual = lista_array_ips.get(i);
                 if(ip_actual.endsWith(octeto_mayor.toString())) {
+                    System.out.println(ip_actual);
                     ipServidor = ip_actual;
                     break;
                 }
