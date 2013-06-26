@@ -103,19 +103,11 @@ public class ClientGUI extends javax.swing.JFrame {
         }       
         
         ipServidor = connectionRMI(ipServidor);
-        
-        try {
-            listaNodo.setListaIps(ipLocal);
-            lista_array_ips = listaNodo.getListaIps();
-            
-            //Imprimiendo la lista de ip dentro de la variable lista_array_ips
-            for(int i = 0;i<lista_array_ips.size();i++){
-                System.out.println("Lista de Ip: Ip "+i+" "+lista_array_ips.get(i));
-            }
-            
-        } catch (RemoteException ex) {
-            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+       
+        //Imprimiendo la lista de ip dentro de la variable lista_array_ips
+        for(int i = 0;i<lista_array_ips.size();i++){
+            System.out.println("Lista de Ip: Ip "+i+" "+lista_array_ips.get(i));
+        }       
    
         if (!"".equals(ipServidor)) {
             this.jButton1.setEnabled(true);
@@ -184,7 +176,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 this.levantarServidor();
             }
 
-            System.out.println("ip Serv Nueva: " + ipServidor);
+            System.out.println("Ip Nuevo Servidor: " + ipServidor);
         }
     }
     
@@ -264,7 +256,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }
     
     //metodo usado por la clase ciente_nodo para refrescar la interfaz
-    public String connectionRMI(String ip_nodo) {
+    private String connectionRMI(String ip_nodo) {
         try {
             registro = LocateRegistry.getRegistry(ipServidor, 1099);
             listaNodo = (IRemoto) registro.lookup("Nodos");
@@ -377,7 +369,6 @@ public class ClientGUI extends javax.swing.JFrame {
      */
     public void addText(String text) {
         jTextAreaChat.append(text);
-        System.out.println("Aqui: " + text);
         if (text.equals("kickUser")){
             try {
                 this.socket.close();
