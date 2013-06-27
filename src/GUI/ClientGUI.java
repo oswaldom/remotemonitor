@@ -132,7 +132,7 @@ public class ClientGUI extends javax.swing.JFrame {
             this.levantarServidor();
         }
         else {
-            lista_array_ips.remove(ipServidor);
+            //lista_array_ips.remove(ipServidor);
 //            try { 
 //                //listaNodo.removeListaIps(ipServidor);
 //                lista_array_ips.remove(ipServidor);
@@ -170,7 +170,8 @@ public class ClientGUI extends javax.swing.JFrame {
             for(int i = 0;i<lista_array_ips.size();i++) {
                 ip_actual = lista_array_ips.get(i);
                 if(ip_actual.endsWith(octeto_mayor.toString())) {
-                    System.out.println(ip_actual);
+                    ip_actual = lista_array_ips.get(i);
+                    System.out.println("IP ACTUAL: " + ip_actual + " Octeto mayor: " + octeto_mayor);
                     ipServidor = ip_actual;
                     break;
                 }
@@ -221,7 +222,8 @@ public class ClientGUI extends javax.swing.JFrame {
     
     public void levantarServidor(){
         try {
-            JOptionPane.showMessageDialog(this, "Host inalcanzable. Iniciando servidor...");
+            //JOptionPane.showMessageDialog(this, "Host inalcanzable. Iniciando servidor...");
+            System.out.println("Host inalcanzable. Iniciando servidor...");
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             } 
@@ -253,7 +255,7 @@ public class ClientGUI extends javax.swing.JFrame {
             servidor = true;
                             
         } catch (InterruptedException ex) {
-            Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             
     }
@@ -277,7 +279,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 updateIpList.start();
 
             } catch (NotBoundException ex) {
-                Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RemoteException ex) {
 
                 //this.levantarServidor();
@@ -301,7 +303,7 @@ public class ClientGUI extends javax.swing.JFrame {
             while(loop){
                 try {
                     lista_array_ips = listaNodo.getListaIps();
-                    ClientGUI.UpdateIpList.sleep(1000);
+                    ClientGUI.UpdateIpList.sleep(10000);
                 } catch (RemoteException ex) {
                     grandulon();
                     //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -334,7 +336,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         ClientGUI.RefreshStats.sleep(1000 * 60);
 
                 } catch (RemoteException | InterruptedException ex) {
-                    Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
@@ -360,7 +362,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 this.jComboBox1.addItem(listaNodo.getListaNodos().get(i).getIp());
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -894,7 +896,7 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (RemoteException ex) {
                 this.levantarServidor();
                 this.connectionRMI();
-                Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         else {
@@ -911,7 +913,7 @@ public class ClientGUI extends javax.swing.JFrame {
             this.grandulon();
             //this.levantarServidor();
             //this.connectionRMI(ipServidor);
-            //Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -928,7 +930,7 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (RemoteException ex) {
                 this.levantarServidor();
                 this.connectionRMI();
-                //Logger.getLogger(InterfazUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
