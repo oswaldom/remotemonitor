@@ -40,7 +40,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private Socket socket = null;
     private static int PORT = 5000;
-    private static String ipServidor;
+    private static String ipServidorActual;
+    private static String ipServidorNuevo;
     private static String ipLocal;
     private static String nick;
     private static String sala;   
@@ -111,7 +112,7 @@ public class ClientGUI extends javax.swing.JFrame {
             System.out.println("Lista de Ip: Ip "+i+" "+lista_array_ips.get(i));
         }       
    
-        if (!"".equals(ipServidor)) {
+        if (!"".equals(ipServidorActual)) {
             this.jButton1.setEnabled(true);
             this.textfieldIpNodo.setEnabled(true);
 
@@ -132,18 +133,6 @@ public class ClientGUI extends javax.swing.JFrame {
             this.levantarServidor();
         }
         else {
-            //lista_array_ips.remove(ipServidor);
-//            try { 
-//                //listaNodo.removeListaIps(ipServidor);
-//                lista_array_ips.remove(ipServidor);
-//            } catch (RemoteException ex) {
-//                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            try {
-//                lista_array_ips = listaNodo.getListaIps();
-//            } catch (RemoteException ex) {
-//                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-//            }
 
             ArrayList<Integer> lista_ultimos_octetos = new ArrayList<Integer>();
             String ip_actual = null;
@@ -172,23 +161,23 @@ public class ClientGUI extends javax.swing.JFrame {
                 if(ip_actual.endsWith(octeto_mayor.toString())) {
                     ip_actual = lista_array_ips.get(i);
                     System.out.println("IP ACTUAL: " + ip_actual + " Octeto mayor: " + octeto_mayor);
-                    ipServidor = ip_actual;
+                    ipServidorActual = ip_actual;
                     break;
                 }
             }
             
-            if (ipServidor.equals(ipLocal)) {
+            if (ipServidorActual.equals(ipLocal)) {
                 this.levantarServidor();
             }
             else {
                 this.connectionRMI();
-                
+                lista_array_ips.remove(ipServidorActual);
             }
             
             if (socket != null){
                 try {
                     socket.close();
-                    socket = new Socket(ipServidor, PORT);
+                    socket = new Socket(ipServidorActual, PORT);
                 } catch (UnknownHostException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -199,7 +188,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 
             }
 
-            System.out.println("Ip Nuevo Servidor: " + ipServidor);
+            System.out.println("Ip Nuevo Servidor: " + ipServidorActual);
         }
     }
     
@@ -263,10 +252,10 @@ public class ClientGUI extends javax.swing.JFrame {
     //metodo usado por la clase ciente_nodo para refrescar la interfaz
     private void connectionRMI() {
         //Se utiliza REGEX para validar si es una IP o si es localhost.
-        if (ipServidor.matches("\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b") || 
-                ipServidor.equals("localhost")) {
+        if (ipServidorActual.matches("\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b") || 
+                ipServidorActual.equals("localhost")) {
             try {
-                registro = LocateRegistry.getRegistry(ipServidor, 1099);
+                registro = LocateRegistry.getRegistry(ipServidorActual, 1099);
                 listaNodo = (IRemoto) registro.lookup("Nodos");            
 
                 //Se anade la ipLocal al arreglo global de los clientes.
@@ -281,8 +270,7 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (NotBoundException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RemoteException ex) {
-
-                //this.levantarServidor();
+                
                 this.grandulon();
             }
         }
@@ -862,7 +850,7 @@ public class ClientGUI extends javax.swing.JFrame {
             
                 nick = JOptionPane.showInputDialog("Introduzca un nickname:");
                 
-                ClientChat client = new ClientChat(PORT, ipServidor, nick, sala, this);
+                ClientChat client = new ClientChat(PORT, ipServidorActual, nick, sala, this);
                 socket = client.getSocket();          
                 
                 this.jLabelNick.setText(nick);
@@ -912,7 +900,7 @@ public class ClientGUI extends javax.swing.JFrame {
             
             this.grandulon();
             //this.levantarServidor();
-            //this.connectionRMI(ipServidor);
+            //this.connectionRMI(ipServidorActual);
             //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -991,7 +979,7 @@ public class ClientGUI extends javax.swing.JFrame {
 //                } catch (UnknownHostException ex) {
 //                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
 //                }
-                ipServidor = JOptionPane.showInputDialog("Introduzca IP del servidor:", "localhost");
+                ipServidorActual = JOptionPane.showInputDialog("Introduzca IP del servidor:", "localhost");
                 
                 new ClientGUI().setVisible(true);
                 
