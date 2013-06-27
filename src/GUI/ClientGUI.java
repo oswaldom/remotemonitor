@@ -226,9 +226,13 @@ public class ClientGUI extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             } 
-            catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            catch (ClassNotFoundException e) {
                 System.err.println("Unable to find and load MySQL driver");
                 System.exit(1);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             System.out.println("Encendiendo Servidor...");
@@ -361,7 +365,9 @@ public class ClientGUI extends javax.swing.JFrame {
                         //Sleep 1 minuto.
                         ClientGUI.RefreshStats.sleep(1000 * 60);
 
-                } catch (RemoteException | InterruptedException ex) {
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
