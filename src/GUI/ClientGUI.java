@@ -178,7 +178,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 this.connectionRMI();
-                listaClientesConectados.remove(ipServidorActual);
+                
             }
             
             if (socket != null){
@@ -266,6 +266,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 listaNodo = (IRemoto) registro.lookup("Nodos");            
 
                 //Se actualiza la lista global de todos los clientes.
+                listaClientesConectados = listaNodo.getListaIps();
                 listaClientesConectados.add(ipLocal);
                 listaNodo.setListaIps(listaClientesConectados);
                 //Se obtiene el arreglo global de las IP's de los clientes
@@ -299,6 +300,7 @@ public class ClientGUI extends javax.swing.JFrame {
             while(loop){
                 try {
                     listaClientesConectados = listaNodo.getListaIps();
+                    System.out.println("Lista de clientes actualizada...");
                     ClientGUI.UpdateIpList.sleep(10000);
                 } catch (RemoteException ex) {
                     grandulon();
