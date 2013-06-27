@@ -42,6 +42,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private Socket socket = null;
     private static int PORT = 5000;
     private static String ipServidorActual;
+    private static String ipServidorNuevo;
     private static String ipLocal;
     private static String nick;
     private static String sala;   
@@ -173,6 +174,14 @@ public class ClientGUI extends javax.swing.JFrame {
             
             if (ipServidorActual.equals(ipLocal)) {
                 this.levantarServidor();
+            }
+            else {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
             
             if (socket != null){
