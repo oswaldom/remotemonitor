@@ -46,7 +46,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private static String nick;
     private static String sala;   
     
-    private static ArrayList<String> lista_array_ips = new ArrayList<String>();
+    private static ArrayList<String> listaClientesConectados = new ArrayList();
     
     private boolean servidor = false;
     
@@ -107,9 +107,9 @@ public class ClientGUI extends javax.swing.JFrame {
         
         this.connectionRMI();
        
-        //Imprimiendo la lista de ip dentro de la variable lista_array_ips
-        for(int i = 0;i<lista_array_ips.size();i++){
-            System.out.println("Lista de Ip: Ip "+i+" "+lista_array_ips.get(i));
+        //Imprimiendo la lista de ip dentro de la lista listaClientesConectados
+        for(int i = 0;i<listaClientesConectados.size();i++){
+            System.out.println("Lista de Ip: Ip "+i+" "+listaClientesConectados.get(i));
         }       
    
         if (!"".equals(ipServidorActual)) {
@@ -126,19 +126,22 @@ public class ClientGUI extends javax.swing.JFrame {
         
     }
     
-    private void grandulon() {       
+    private void grandulon() {           
         
-        if (lista_array_ips.isEmpty()){
+        if (listaClientesConectados.isEmpty()){
             System.out.println("LISTA DE IP'S ESTA VACIA");
             this.levantarServidor();
         }
         else {
+            //Elimina la IP del servidor caido.
+            listaClientesConectados.remove(ipServidorActual);
 
-            ArrayList<Integer> lista_ultimos_octetos = new ArrayList<Integer>();
-            String ip_actual = null;
+            ArrayList<Integer> lista_ultimos_octetos = new ArrayList();
+            String ip_actual;
 
-            for(int i = 0;i<lista_array_ips.size();i++) {
-                ip_actual = lista_array_ips.get(i);            
+            //Calcular lista con los ultimos octetos de cada IP de la lista.
+            for(int i = 0;i<listaClientesConectados.size();i++) {
+                ip_actual = listaClientesConectados.get(i);            
                 String[] octetos = ip_actual.split("\\.");           
 
                 int ultimo_octeto = Integer.parseInt(octetos[3]);
@@ -147,7 +150,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 lista_ultimos_octetos.add(ultimo_octeto);
             }
 
-            //Algoritmo para sacar el octeto mayor de la lista de octetos
+            //Algoritmo para calcular el octeto mayor de la lista de octetos.
             Integer octeto_mayor = lista_ultimos_octetos.get(0);
 
             for(int i = 0;i<lista_ultimos_octetos.size();i++) {
@@ -155,23 +158,27 @@ public class ClientGUI extends javax.swing.JFrame {
                     octeto_mayor = lista_ultimos_octetos.get(i);
             }
 
-            //Extrayendo la ip con el octeto mayor
-            for(int i = 0;i<lista_array_ips.size();i++) {
-                ip_actual = lista_array_ips.get(i);
+            //Extrayendo la IP con el octeto mayor
+            for(int i = 0;i<listaClientesConectados.size();i++) {
+                ip_actual = listaClientesConectados.get(i);
                 if(ip_actual.endsWith(octeto_mayor.toString())) {
-                    ip_actual = lista_array_ips.get(i);
+                    ipServidorActual = listaClientesConectados.get(i);
                     System.out.println("IP ACTUAL: " + ip_actual + " Octeto mayor: " + octeto_mayor);
-                    ipServidorActual = ip_actual;
                     break;
                 }
-            }
+            } 
             
             if (ipServidorActual.equals(ipLocal)) {
                 this.levantarServidor();
             }
             else {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 this.connectionRMI();
-                lista_array_ips.remove(ipServidorActual);
+                listaClientesConectados.remove(ipServidorActual);
             }
             
             if (socket != null){
@@ -258,11 +265,12 @@ public class ClientGUI extends javax.swing.JFrame {
                 registro = LocateRegistry.getRegistry(ipServidorActual, 1099);
                 listaNodo = (IRemoto) registro.lookup("Nodos");            
 
-                //Se anade la ipLocal al arreglo global de los clientes.
-                listaNodo.setListaIps(ipLocal);
+                //Se actualiza la lista global de todos los clientes.
+                listaClientesConectados.add(ipLocal);
+                listaNodo.setListaIps(listaClientesConectados);
                 //Se obtiene el arreglo global de las IP's de los clientes
                 //conectados.
-                lista_array_ips = listaNodo.getListaIps();
+                //listaClientesConectados = listaNodo.getListaIps();
                 
                 updateIpList = new UpdateIpList();
                 updateIpList.start();
@@ -290,7 +298,7 @@ public class ClientGUI extends javax.swing.JFrame {
             
             while(loop){
                 try {
-                    lista_array_ips = listaNodo.getListaIps();
+                    listaClientesConectados = listaNodo.getListaIps();
                     ClientGUI.UpdateIpList.sleep(10000);
                 } catch (RemoteException ex) {
                     grandulon();
@@ -938,8 +946,8 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAdminConsoleActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        for(int i = 0;i<lista_array_ips.size();i++){
-            System.out.println("Lista de Ip: Ip "+i+" "+lista_array_ips.get(i));
+        for(int i = 0;i<listaClientesConectados.size();i++){
+            System.out.println("Lista de Ip: Ip "+i+" "+listaClientesConectados.get(i));
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

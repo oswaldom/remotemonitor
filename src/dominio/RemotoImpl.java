@@ -21,11 +21,11 @@ public class RemotoImpl extends UnicastRemoteObject implements IRemoto{
     private NodoBD nodoBD = new NodoBD();   
     private ArrayList<Nodo> listaNodo = new ArrayList<Nodo>();
     
-    private ArrayList<String> lista_ips;
+    private ArrayList<String> listaIp;
 
     public RemotoImpl() throws RemoteException{
         listaNodo = null;
-        lista_ips = new ArrayList<String>();
+        listaIp = new ArrayList<String>();
     }
 
     @Override
@@ -42,17 +42,17 @@ public class RemotoImpl extends UnicastRemoteObject implements IRemoto{
     
     @Override
     public ArrayList<String> getListaIps() throws RemoteException {
-        return lista_ips;
+        return listaIp;
     }
 
     @Override
-    public void setListaIps(String ip_cliente) throws RemoteException {        
-        this.lista_ips.add(ip_cliente);
+    public void setListaIps(ArrayList<String> ipCliente) throws RemoteException {        
+        this.listaIp = (ipCliente);
     }
 
     @Override
-    public void removeListaIps(String ip_remover) throws RemoteException {
-        this.lista_ips.remove(ip_remover);
+    public void removeListaIps(String ipRemover) throws RemoteException {
+        this.listaIp.remove(ipRemover);
     }
 
     @Override
