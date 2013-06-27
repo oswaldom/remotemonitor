@@ -85,6 +85,7 @@ public class ClientGUI extends javax.swing.JFrame {
         this.setResizable(false);
         
         updateIpList = new UpdateIpList();
+        refresh = new RefreshStats();
         
         addWindowListener(new WindowAdapter() {
             @Override
@@ -109,13 +110,6 @@ public class ClientGUI extends javax.swing.JFrame {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }       
         
-        this.connectionRMI();
-       
-        //Imprimiendo la lista de ip dentro de la lista listaClientesConectados
-        for(int i = 0;i<listaClientesConectados.size();i++){
-            System.out.println("Lista de Ip: Ip "+i+" "+listaClientesConectados.get(i));
-        }       
-   
         if (!"".equals(ipServidorActual)) {
             this.jButton1.setEnabled(true);
             this.textfieldIpNodo.setEnabled(true);
@@ -123,10 +117,10 @@ public class ClientGUI extends javax.swing.JFrame {
             this.jComboBox1.setEnabled(true);
             this.jTextAreaProcesos.setVisible(true);
             
-            refresh = new RefreshStats();
-            refresh.start();
-            
         }
+        
+        
+        this.connectionRMI();
         
     }
     
@@ -138,7 +132,7 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         else {
             //Elimina la IP del servidor caido.
-            listaClientesConectados.remove(ipServidorActual);
+            //listaClientesConectados.remove(ipServidorActual);
 
             ArrayList<Integer> lista_ultimos_octetos = new ArrayList();
             String ip_actual;
@@ -251,7 +245,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
             //registro = LocateRegistry.getRegistry(ipLocal, 1099);
             //listaNodo = (IRemoto) registro.lookup("Nodos");
-            this.connectionRMI();
+            //this.connectionRMI();
             
             this.showServerResources();
             
@@ -270,15 +264,15 @@ public class ClientGUI extends javax.swing.JFrame {
                 ipServidorActual.equals("localhost")) {
             try {
                 registro = LocateRegistry.getRegistry(ipServidorActual, 1099);
-                listaNodo = (IRemoto) registro.lookup("Nodos");            
+                listaNodo = (IRemoto) registro.lookup("Nodos");       
 
+                //Se obtiene el arreglo global de las IP's de los clientes
+                //conectados.
                 //Se actualiza la lista global de todos los clientes.
                 listaClientesConectados = listaNodo.getListaIps();
                 listaClientesConectados.add(ipLocal);
                 listaNodo.setListaIps(listaClientesConectados);
-                //Se obtiene el arreglo global de las IP's de los clientes
-                //conectados.
-                //listaClientesConectados = listaNodo.getListaIps();
+                
                 
                 this.showChatResources();
                 
@@ -291,7 +285,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 
                 this.disposeChatResources();
                 this.grandulon();
-                //this.connectionRMI();
+                this.connectionRMI();
             }
         }
         
@@ -363,7 +357,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
                     }
                         //Sleep 1 minuto.
-                        ClientGUI.RefreshStats.sleep(1000 * 60);
+                        refresh.sleep(1000 * 60);
 
                 } catch (RemoteException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
