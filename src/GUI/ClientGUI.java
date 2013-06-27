@@ -281,7 +281,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 
                 this.showChatResources();
                 
-                updateIpList = new UpdateIpList();
+                refresh.start();
                 updateIpList.start();
                 
             } catch (NotBoundException ex) {
@@ -333,7 +333,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     System.out.println("Lista de clientes actualizada...");
                     updateIpList.sleep(10000);
                 } catch (RemoteException ex) {
-                    grandulon();
+                    connectionRMI();
+                    //grandulon();
                     //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -940,9 +941,9 @@ public class ClientGUI extends javax.swing.JFrame {
             this.mostrarInformacionNodo();
         } catch (RemoteException ex) {
             
-            this.grandulon();
+            //this.grandulon();
             //this.levantarServidor();
-            //this.connectionRMI(ipServidor);
+            this.connectionRMI();
             //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
