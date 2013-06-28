@@ -180,7 +180,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 
                 while (this.connectionRMI() == false){
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(10000);
                         System.out.println("Intentando conectar a RMI...");
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -356,17 +356,18 @@ public class ClientGUI extends javax.swing.JFrame {
                     System.out.println("Lista de clientes actualizada...");
                     updateIpList.sleep(10000);
                 } catch (RemoteException ex) {
-                    if (connectionRMI() == false){
-                        try {
-                            
-                            Thread.sleep(10000);
-                            System.out.println("WHILIEANDO");
-                            grandulon();
-                        } catch (InterruptedException ex1) {
-                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                        }
-                     
-                    }
+                    grandulon();
+//                    if (connectionRMI() == false){
+//                        try {
+//                            
+//                            updateIpList.sleep(10000);
+//                            System.out.println("WHILIEANDO");
+//                            grandulon();
+//                        } catch (InterruptedException ex1) {
+//                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
+//                        }
+//                     
+//                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -393,20 +394,21 @@ public class ClientGUI extends javax.swing.JFrame {
 
                     }
                         //Sleep 1 minuto.
-                        refresh.sleep(10000);
+                        refresh.sleep(1000 * 60);
 
                 } catch (RemoteException ex) {
-                    if (connectionRMI() == false){
-                        try {
-                            grandulon();
-                            Thread.sleep(10000);
-                            System.out.println("WHILIEANDO");
-                            grandulon();
-                        } catch (InterruptedException ex1) {
-                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                        }
-                     
-                    }
+                    grandulon();
+//                    if (connectionRMI() == false){
+//                        try {
+//                            //grandulon();
+//                            refresh.sleep(10000);
+//                            System.out.println("WHILIEANDO");
+//                            grandulon();
+//                        } catch (InterruptedException ex1) {
+//                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
+//                        }
+//                     
+//                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
