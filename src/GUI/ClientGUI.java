@@ -178,7 +178,7 @@ public class ClientGUI extends javax.swing.JFrame {
             }
             else {
                 
-                while (this.connectionRMI() == false){
+                if (this.connectionRMI() == false){
                     try {
                         Thread.sleep(10000);
                         System.out.println("Intentando conectar a RMI...");
