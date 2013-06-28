@@ -16,6 +16,7 @@ public class ControlClient implements Runnable {
     public ControlClient(Socket socket, ClientGUI panel, String nick, String sala) {
         this.panel = panel;
         this.nick = nick;
+        
         this.sala = sala;
         try {
             dataInput = new DataInputStream(socket.getInputStream());
@@ -81,8 +82,8 @@ public class ControlClient implements Runnable {
     public static void actionInterface() {
         try {
             if (panel.getSelectedUser().equals("Todos")) {
-                /*if(panel.getTexto().startsWith("*all"))
-                    System.out.println("Mensaje para todos?");*/
+                //if(panel.getTexto().startsWith("*"))
+                    
                 
                 dataOutput.writeUTF("publicMessage&" + nick + "&" +
                         panel.getTexto());                
