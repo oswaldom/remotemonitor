@@ -497,7 +497,7 @@ public class ClientGUI extends javax.swing.JFrame {
      */
     public String getTexto() {
         String texto = jTextFieldChat.getText();
-        jTextFieldChat.setText("");
+        jTextFieldChat.setText("");        
         return texto;
     }
     
@@ -1003,6 +1003,10 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String cadena = jTextAreaChat.getText();
+        System.out.println("Historial: "+cadena);
+        //if(jTextAreaChat.get)
+        
         ControlClient.actionInterface();
     }//GEN-LAST:event_jButton1ActionPerformed
 
