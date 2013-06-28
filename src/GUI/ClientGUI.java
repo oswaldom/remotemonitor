@@ -906,23 +906,13 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDisconnectChatActionPerformed
 
     private void jButtonConnectChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectChatActionPerformed
-    
             if (jListSalas.isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Debes seleccionar una sala.");
             }
             else {
                 sala = jListSalas.getSelectedValue().toString();
+                PORT = 5000;
                 
-                if (sala.equals("Administradores SO")){
-                    PORT = 5000;
-                }
-                else if (sala.equals("Administradores BD")){
-                    PORT = 5001;
-                }
-                else if (sala.equals("Personal Monitoreo")){
-                    PORT = 5002;
-                }
-            
                 nick = JOptionPane.showInputDialog("Introduzca un nickname:");
                 
                 client = new ClientChat(PORT, ipServidor, nick, sala, this);
