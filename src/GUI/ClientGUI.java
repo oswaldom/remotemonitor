@@ -242,9 +242,27 @@ public class ClientGUI extends javax.swing.JFrame {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            System.out.println("Encendiendo Servidor...");
-            ServidorChat servidorChat = new ServidorChat();
-            servidorChat.start();
+            //Este lo ignora
+            ServidorChat servidorChat1 = new ServidorChat(5000);
+            servidorChat1.start();
+            
+            System.out.println("Encendiendo Servidor de Chat #1...");
+            ServidorChat servidorChat4 = new ServidorChat(5000);
+            servidorChat4.start();
+            
+            //Este lo ignora
+            ServidorChat servidorChat5 = new ServidorChat(5000);
+            servidorChat5.start();
+            
+            System.out.println("Encendiendo Servidor de Chat #2...");
+            ServidorChat servidorChat2 = new ServidorChat(5001);
+            servidorChat2.start();
+            
+            System.out.println("Encendiendo Servidor de Chat #3...");
+            ServidorChat servidorChat3 = new ServidorChat(5002);
+            servidorChat3.start(); 
+            
+            
 
             ServidorChat.sleep(1000);
 
@@ -897,27 +915,22 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDisconnectChatActionPerformed
 
     private void jButtonConnectChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectChatActionPerformed
-    
             if (jListSalas.isSelectionEmpty()){
                 JOptionPane.showMessageDialog(this, "Debes seleccionar una sala.");
             }
             else {
                 sala = jListSalas.getSelectedValue().toString();
                 
-                if (sala.equals("Administradores SO")){
-                    PORT = 5000;
-                }
-                else if (sala.equals("Administradores BD")){
-                    PORT = 5001;
-                }
-                else if (sala.equals("Personal Monitoreo")){
-                    PORT = 5002;
-                }
-            
+                if(sala.equals("Administradores SO")) PORT = 5000;
+                if(sala.equals("Administradores BD")) PORT = 5001;
+                if(sala.equals("Personal monitoreo")) PORT = 5002;
+                
                 nick = JOptionPane.showInputDialog("Introduzca un nickname:");
                 
+                System.out.println("Puerto para cliente: "+PORT);
                 client = new ClientChat(PORT, ipServidor, nick, sala, this);
-                socket = client.getSocket();          
+                
+                socket = client.getSocket();
                 
                 this.jLabelNick.setText(nick);
                 jComboBoxUsers.setEnabled(true);
@@ -1020,7 +1033,7 @@ public class ClientGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("GTK+".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

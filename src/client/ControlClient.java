@@ -1,7 +1,3 @@
-/**
- * March 2013
- * Chat Server
- */
 package client;
 
 import GUI.ClientGUI;
@@ -9,43 +5,18 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
-/**
- * Class that attend the socket and request from the user. the socket result
- * is shown in the textArea panel, so that the user types in the panel sends
- * it to the socket.
- * 
- * @author xubuntu
- *
- */
 public class ControlClient implements Runnable {
 
-    /**
-     * To read data from the socket
-     */
     private static DataInputStream dataInput;
-    /**
-     * To write data in the socket
-     */
     private static DataOutputStream dataOutput;
-    /**
-     * Panel with the controls for the user
-     */
     private static ClientGUI panel;
-    /**
-     * Nick for shown in the window
-     */
     private static String nick;
     private static String sala;
 
-    /**
-     * Launches a thread to serve the socket.
-     *
-     * @param socket El socket
-     * @param panel El panel del usuario
-     */
     public ControlClient(Socket socket, ClientGUI panel, String nick, String sala) {
         this.panel = panel;
         this.nick = nick;
+        
         this.sala = sala;
         try {
             dataInput = new DataInputStream(socket.getInputStream());
@@ -111,8 +82,11 @@ public class ControlClient implements Runnable {
     public static void actionInterface() {
         try {
             if (panel.getSelectedUser().equals("Todos")) {
+                //if(panel.getTexto().startsWith("*"))
+                    
+                
                 dataOutput.writeUTF("publicMessage&" + nick + "&" +
-                        panel.getTexto());
+                        panel.getTexto());                
             } else {
                 dataOutput.writeUTF("privateMessage&" + nick + "&" +
                         panel.getSelectedUser() + "&" + panel.getTexto());
