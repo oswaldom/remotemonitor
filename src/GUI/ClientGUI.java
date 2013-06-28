@@ -242,30 +242,22 @@ public class ClientGUI extends javax.swing.JFrame {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            //Este lo ignora
+            System.out.println("Encendiendo Servidor de Chat #1...");
             ServidorChat servidorChat1 = new ServidorChat(5000);
             servidorChat1.start();
-            
-            System.out.println("Encendiendo Servidor de Chat #1...");
-            ServidorChat servidorChat4 = new ServidorChat(5000);
-            servidorChat4.start();
-            
-            //Este lo ignora
-            ServidorChat servidorChat5 = new ServidorChat(5000);
-            servidorChat5.start();
+            Thread.sleep(1000);
             
             System.out.println("Encendiendo Servidor de Chat #2...");
             ServidorChat servidorChat2 = new ServidorChat(5001);
             servidorChat2.start();
+            Thread.sleep(1000);
             
             System.out.println("Encendiendo Servidor de Chat #3...");
             ServidorChat servidorChat3 = new ServidorChat(5002);
             servidorChat3.start(); 
-            
-            
+            Thread.sleep(1000);
 
-            ServidorChat.sleep(1000);
-
+            System.out.println("Encendiendo Servidor RMI...");
             System.setProperty("java.rmi.server.hostname", ipLocal);
             ServidorRMI servidorRMI = new ServidorRMI();
             servidorRMI.start();
