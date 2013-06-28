@@ -50,7 +50,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private static ArrayList<String> listaClientesConectados;
     private static ArrayList<Integer> listaUltimoOcteto;
     
-    private boolean servidor = false;
+    private boolean servidor;
     
     Registry registro = null;
     DefaultListModel listModel = null;
@@ -88,7 +88,9 @@ public class ClientGUI extends javax.swing.JFrame {
         //Inicializando las variables.
         listaClientesConectados = new ArrayList();
         listaUltimoOcteto = new ArrayList();
+        servidor = false;
         
+        ipLocal = "";
         updateIpList = new UpdateIpList();
         refresh = new RefreshStats();
         
@@ -97,6 +99,7 @@ public class ClientGUI extends javax.swing.JFrame {
             public void windowClosing(WindowEvent we) {
                 try {
                     ControlClient.removeUser();
+                    listaNodo.removeListaIps(ipLocal);
                     if (socket != null)
                         socket.close();
                     System.exit(0);
@@ -110,7 +113,6 @@ public class ClientGUI extends javax.swing.JFrame {
             ipLocal = getFirstNonLoopbackAddress();
             System.out.println("Ip Local: " + ipLocal);    
             
-            listaClientesConectados.add(ipLocal);
             
         } catch (SocketException ex) {
             System.out.println("No se pudo determinar la ipLocal");
@@ -196,6 +198,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                
                 control = new ControlClient(socket, this, nick, sala);
                 control.setNick(nick);
                 
@@ -298,6 +302,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     this.refresh.start();
                     this.updateIpList.start();
                 }
+                System.out.println(servidor);
                 
             } catch (NotBoundException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -351,15 +356,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     System.out.println("Lista de clientes actualizada...");
                     updateIpList.sleep(10000);
                 } catch (RemoteException ex) {
-                    while (connectionRMI() == false){
-                        try {
-                            Thread.sleep(10000);
-                            System.out.println("WHILIEANDO");
-                        } catch (InterruptedException ex1) {
-                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                        }
-                     
-                    }
+                    grandulon();
+
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -386,18 +384,11 @@ public class ClientGUI extends javax.swing.JFrame {
 
                     }
                         //Sleep 1 minuto.
-                        refresh.sleep(10000);
+                        refresh.sleep(1000 * 60);
 
                 } catch (RemoteException ex) {
-                    while (connectionRMI() == false){
-                        try {
-                            Thread.sleep(10000);
-                            System.out.println("WHILIEANDO");
-                        } catch (InterruptedException ex1) {
-                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                        }
-                     
-                    }
+                    grandulon();
+
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -425,6 +416,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 this.jComboBox1.addItem(listaNodo.getListaNodos().get(i).getIp());
             }
         } catch (RemoteException ex) {
+            System.out.println("FLAG LLENANDO COMBO BOX!!!");
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -1019,7 +1011,7 @@ public class ClientGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("GTK+".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
