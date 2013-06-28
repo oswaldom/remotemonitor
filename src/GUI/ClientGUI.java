@@ -110,7 +110,6 @@ public class ClientGUI extends javax.swing.JFrame {
             ipLocal = getFirstNonLoopbackAddress();
             System.out.println("Ip Local: " + ipLocal);    
             
-            listaClientesConectados.add(ipLocal);
             
         } catch (SocketException ex) {
             System.out.println("No se pudo determinar la ipLocal");
@@ -178,7 +177,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 
                 while (this.connectionRMI() == false){
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(1000);
                         System.out.println("Intentando conectar a RMI...");
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,6 +195,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                
                 control = new ControlClient(socket, this, nick, sala);
                 control.setNick(nick);
                 
@@ -259,7 +260,7 @@ public class ClientGUI extends javax.swing.JFrame {
             
             servidor = true;
             
-            this.connectionRMI();
+            //this.connectionRMI();
             
 
             //registro = LocateRegistry.getRegistry(ipLocal, 1099);
@@ -353,6 +354,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 } catch (RemoteException ex) {
                     while (connectionRMI() == false){
                         try {
+                            grandulon();
                             Thread.sleep(10000);
                             System.out.println("WHILIEANDO");
                         } catch (InterruptedException ex1) {
@@ -391,6 +393,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 } catch (RemoteException ex) {
                     while (connectionRMI() == false){
                         try {
+                            grandulon();
                             Thread.sleep(10000);
                             System.out.println("WHILIEANDO");
                         } catch (InterruptedException ex1) {
