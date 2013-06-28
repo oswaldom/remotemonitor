@@ -15,6 +15,7 @@ import server.ServidorChat;
 public class AdminConsole extends javax.swing.JDialog {
     
     List usuariosConectados = null;
+    String usuarioSeleccionado;
 
     /**
      * Creates new form AdminConsole
@@ -47,8 +48,6 @@ public class AdminConsole extends javax.swing.JDialog {
         jComboBoxAllUsers = new javax.swing.JComboBox();
         jPanelUserInfo = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextFieldSalaActual = new javax.swing.JTextField();
         jTextFieldNickUser = new javax.swing.JTextField();
         jButtonKickUser = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -60,12 +59,15 @@ public class AdminConsole extends javax.swing.JDialog {
         jLabel1.setText("Usuarios conectados:");
 
         jComboBoxAllUsers.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxAllUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxAllUsersActionPerformed(evt);
+            }
+        });
 
         jPanelUserInfo.setBorder(javax.swing.BorderFactory.createTitledBorder("User information"));
 
         jLabel2.setText("Nick:");
-
-        jLabel3.setText("Sala actual:");
 
         jButtonKickUser.setText("Kick");
         jButtonKickUser.addActionListener(new java.awt.event.ActionListener() {
@@ -79,17 +81,15 @@ public class AdminConsole extends javax.swing.JDialog {
         jPanelUserInfoLayout.setHorizontalGroup(
             jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUserInfoLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelUserInfoLayout.createSequentialGroup()
-                        .addGroup(jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldNickUser, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jTextFieldSalaActual)))
-                    .addComponent(jButtonKickUser))
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addGap(62, 62, 62)
+                        .addComponent(jTextFieldNickUser, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelUserInfoLayout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(jButtonKickUser)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelUserInfoLayout.setVerticalGroup(
@@ -99,13 +99,9 @@ public class AdminConsole extends javax.swing.JDialog {
                 .addGroup(jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldNickUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldSalaActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addComponent(jButtonKickUser)
-                .addContainerGap())
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jButton1.setText("Exit");
@@ -171,10 +167,21 @@ public class AdminConsole extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonKickUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKickUserActionPerformed
-        if((this.jComboBoxAllUsers.getSelectedIndex() > 0)){
-            ControlClient.kickUser(jComboBoxAllUsers.getSelectedItem().toString());
-         }
+        ControlClient.kickUser(usuarioSeleccionado);
     }//GEN-LAST:event_jButtonKickUserActionPerformed
+
+    private void jComboBoxAllUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAllUsersActionPerformed
+        if((this.jComboBoxAllUsers.getSelectedIndex() >= 0)) {
+            usuarioSeleccionado = jComboBoxAllUsers.getSelectedItem().toString();
+            
+            if((jComboBoxAllUsers.getSelectedIndex() == 0)) 
+                jButtonKickUser.setEnabled(false);
+            else {
+                jButtonKickUser.setEnabled(true);
+                jTextFieldNickUser.setText(usuarioSeleccionado);
+            }
+        }
+    }//GEN-LAST:event_jComboBoxAllUsersActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,10 +230,8 @@ public class AdminConsole extends javax.swing.JDialog {
     private javax.swing.JComboBox jComboBoxAllUsers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanelAdminConsole;
     private javax.swing.JPanel jPanelUserInfo;
     private javax.swing.JTextField jTextFieldNickUser;
-    private javax.swing.JTextField jTextFieldSalaActual;
     // End of variables declaration//GEN-END:variables
 }

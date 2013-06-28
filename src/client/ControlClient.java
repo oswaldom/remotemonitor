@@ -12,11 +12,11 @@ public class ControlClient implements Runnable {
     private static ClientGUI panel;
     private static String nick;
     private static String sala;
+    private static Socket socket1,socket2,socket3 = null;
 
     public ControlClient(Socket socket, ClientGUI panel, String nick, String sala) {
         this.panel = panel;
-        this.nick = nick;
-        
+        this.nick = nick;        
         this.sala = sala;
         try {
             dataInput = new DataInputStream(socket.getInputStream());
@@ -55,9 +55,6 @@ public class ControlClient implements Runnable {
         }
     }
 
-    /**
-     * Method for remove a user from the server
-     */
     public static void removeUser() {
         try {
             dataOutput.writeUTF("removeUser&" + nick);
@@ -71,25 +68,21 @@ public class ControlClient implements Runnable {
         try {
             dataOutput.writeUTF("kickUser&" + nick);
             dataOutput.flush();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.getMessage();
         }
     }
 
-    /**
-     * Method for send public or private messages depending of the combobox
-     */
     public static void actionInterface() {
         try {
             if (panel.getSelectedUser().equals("Todos")) {
-                //if(panel.getTexto().startsWith("*"))
-                    
-                
-                dataOutput.writeUTF("publicMessage&" + nick + "&" +
-                        panel.getTexto());                
-            } else {
-                dataOutput.writeUTF("privateMessage&" + nick + "&" +
-                        panel.getSelectedUser() + "&" + panel.getTexto());
+                dataOutput.writeUTF("publicMessage&" + nick + "&" + panel.getTexto());                
+                if(panel.getTexto().startsWith("*all"))
+                    System.out.println("Mensaje a todos; Broadcasting");
+            } 
+            else {
+                dataOutput.writeUTF("privateMessage&" + nick + "&" + panel.getSelectedUser() + "&" + panel.getTexto());
             }            
             dataOutput.flush();
         } catch (Exception e) {
