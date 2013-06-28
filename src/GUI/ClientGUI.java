@@ -263,7 +263,7 @@ public class ClientGUI extends javax.swing.JFrame {
             
             servidor = true;
             
-            //this.connectionRMI();
+            this.connectionRMI();
             
 
             //registro = LocateRegistry.getRegistry(ipLocal, 1099);
@@ -356,7 +356,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     System.out.println("Lista de clientes actualizada...");
                     updateIpList.sleep(10000);
                 } catch (RemoteException ex) {
-                    while (connectionRMI() == false){
+                    if (connectionRMI() == false){
                         try {
                             
                             Thread.sleep(10000);
@@ -396,7 +396,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         refresh.sleep(10000);
 
                 } catch (RemoteException ex) {
-                    while (connectionRMI() == false){
+                    if (connectionRMI() == false){
                         try {
                             grandulon();
                             Thread.sleep(10000);
@@ -1038,7 +1038,7 @@ public class ClientGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("GTK+".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
