@@ -268,7 +268,7 @@ public class ClientGUI extends javax.swing.JFrame {
             
          
             listaClientesConectados.remove(ipLocal);
-            System.out.println("DELETED");
+            
             this.showServerResources();
             
             servidor = true;
@@ -312,7 +312,6 @@ public class ClientGUI extends javax.swing.JFrame {
                     this.refresh.start();
                     this.updateIpList.start();
                 }
-                System.out.println(servidor);
                 
             } catch (NotBoundException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -934,6 +933,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 this.jButtonConnectChat.setEnabled(false);
                 this.jButtonDisconnectChat.setEnabled(true);
                 this.jListSalas.setVisible(false);
+                this.jTextAreaChat.setText("");
                 
             }
                 
@@ -996,6 +996,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ControlClient.actionInterface();
+        this.jTextFieldChat.requestFocus();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBoxUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxUsersActionPerformed
