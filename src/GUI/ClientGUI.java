@@ -904,8 +904,12 @@ public class ClientGUI extends javax.swing.JFrame {
             else {
                 sala = jListSalas.getSelectedValue().toString();
                 
-                
-                PORT = 5000;
+                if(jListSalas.getSelectedIndex() == 1)
+                    PORT = 5000;
+                if(jListSalas.getSelectedIndex() == 2)
+                    PORT = 5001;
+                if(jListSalas.getSelectedIndex() == 3)
+                    PORT = 5002;
                 
                 nick = JOptionPane.showInputDialog("Introduzca un nickname:");
                 
