@@ -127,7 +127,7 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         
         if (connectionRMI() == false) {
-           //do nothing
+           this.grandulon();
         }
         
     }
@@ -179,6 +179,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 while (this.connectionRMI() == false){
                     try {
                         Thread.sleep(10000);
+                        System.out.println("Intentando conectar a RMI...");
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -253,6 +254,11 @@ public class ClientGUI extends javax.swing.JFrame {
             
          
             listaClientesConectados.remove(ipLocal);
+            System.out.println("DELETED");
+            this.showServerResources();
+            
+            servidor = true;
+            
             this.connectionRMI();
             
 
@@ -265,10 +271,6 @@ public class ClientGUI extends javax.swing.JFrame {
                 //listaClientesConectados = listaNodo.getListaIps();
                 //listaNodo.setListaIps(listaClientesConectados);              
             
-            
-            this.showServerResources();
-            
-            servidor = true;
                             
         } catch (InterruptedException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -286,6 +288,10 @@ public class ClientGUI extends javax.swing.JFrame {
                 listaNodo = (IRemoto) registro.lookup("Nodos");       
 
                 this.showChatResources();
+                listaClientesConectados = listaNodo.getListaIps();
+                if (servidor == false) {
+                    listaClientesConectados.add(ipLocal);
+                }
                 listaNodo.setListaIps(listaClientesConectados);
                 
                 if (!refresh.isAlive() && !updateIpList.isAlive()){
@@ -298,7 +304,7 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (RemoteException ex) {
                 
                 //this.disposeChatResources();
-                this.grandulon();
+                //this.grandulon();
                 
                 return false;
             }
@@ -345,7 +351,15 @@ public class ClientGUI extends javax.swing.JFrame {
                     System.out.println("Lista de clientes actualizada...");
                     updateIpList.sleep(10000);
                 } catch (RemoteException ex) {
-                    connectionRMI();
+                    while (connectionRMI() == false){
+                        try {
+                            Thread.sleep(10000);
+                            System.out.println("WHILIEANDO");
+                        } catch (InterruptedException ex1) {
+                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
+                     
+                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -372,10 +386,18 @@ public class ClientGUI extends javax.swing.JFrame {
 
                     }
                         //Sleep 1 minuto.
-                        refresh.sleep(1000 * 60);
+                        refresh.sleep(10000);
 
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    while (connectionRMI() == false){
+                        try {
+                            Thread.sleep(10000);
+                            System.out.println("WHILIEANDO");
+                        } catch (InterruptedException ex1) {
+                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
+                     
+                    }
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
