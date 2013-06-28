@@ -416,7 +416,6 @@ public class ClientGUI extends javax.swing.JFrame {
                 this.jComboBox1.addItem(listaNodo.getListaNodos().get(i).getIp());
             }
         } catch (RemoteException ex) {
-            System.out.println("FLAG LLENANDO COMBO BOX!!!");
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
