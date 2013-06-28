@@ -357,17 +357,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     updateIpList.sleep(10000);
                 } catch (RemoteException ex) {
                     grandulon();
-//                    if (connectionRMI() == false){
-//                        try {
-//                            
-//                            updateIpList.sleep(10000);
-//                            System.out.println("WHILIEANDO");
-//                            grandulon();
-//                        } catch (InterruptedException ex1) {
-//                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
-//                        }
-//                     
-//                    }
+
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -398,17 +388,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
                 } catch (RemoteException ex) {
                     grandulon();
-//                    if (connectionRMI() == false){
-//                        try {
-//                            //grandulon();
-//                            refresh.sleep(10000);
-//                            System.out.println("WHILIEANDO");
-//                            grandulon();
-//                        } catch (InterruptedException ex1) {
-//                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
-//                        }
-//                     
-//                    }
+
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
