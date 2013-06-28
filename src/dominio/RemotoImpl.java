@@ -18,14 +18,14 @@ import java.util.logging.Logger;
  */
 public class RemotoImpl extends UnicastRemoteObject implements IRemoto{
 
-    private NodoBD nodoBD = new NodoBD();   
-    private ArrayList<Nodo> listaNodo = new ArrayList<Nodo>();
-    
+    private NodoBD nodoBD;   
+    private ArrayList<Nodo> listaNodo = new ArrayList<Nodo>();    
     private ArrayList<String> listaIp;
 
     public RemotoImpl() throws RemoteException{
         listaNodo = null;
-        listaIp = new ArrayList<String>();
+        listaIp = new ArrayList();
+        nodoBD = new NodoBD();
     }
 
     @Override
@@ -46,8 +46,8 @@ public class RemotoImpl extends UnicastRemoteObject implements IRemoto{
     }
 
     @Override
-    public void setListaIps(ArrayList<String> ipCliente) throws RemoteException {        
-        this.listaIp = (ipCliente);
+    public void setListaIps(ArrayList<String> listaIp) throws RemoteException {        
+        this.listaIp = listaIp;
     }
 
     @Override

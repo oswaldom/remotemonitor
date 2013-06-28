@@ -18,7 +18,7 @@ public interface IRemoto extends Remote{
     
     public ArrayList<String> getListaIps() throws RemoteException;
     
-    public void setListaIps(ArrayList<String> ipCliente) throws RemoteException;
+    public void setListaIps(ArrayList<String> listaIp) throws RemoteException;
     
     public void removeListaIps(String ipRemover) throws RemoteException;
 

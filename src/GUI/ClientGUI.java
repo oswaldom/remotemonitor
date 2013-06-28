@@ -85,8 +85,9 @@ public class ClientGUI extends javax.swing.JFrame {
         
         this.setResizable(false);
         
-        listaClientesConectados = new ArrayList<>();
-        listaUltimoOcteto = new ArrayList<>();
+        //Inicializando las variables.
+        listaClientesConectados = new ArrayList();
+        listaUltimoOcteto = new ArrayList();
         
         updateIpList = new UpdateIpList();
         refresh = new RefreshStats();
@@ -107,7 +108,9 @@ public class ClientGUI extends javax.swing.JFrame {
         
         try {
             ipLocal = getFirstNonLoopbackAddress();
-            System.out.println("Ip Local: " + ipLocal);                    
+            System.out.println("Ip Local: " + ipLocal);    
+            
+            listaClientesConectados.add(ipLocal);
             
         } catch (SocketException ex) {
             System.out.println("No se pudo determinar la ipLocal");
@@ -123,7 +126,9 @@ public class ClientGUI extends javax.swing.JFrame {
             
         }
         
-        this.connectionRMI();
+        if (connectionRMI() == false) {
+           //do nothing
+        }
         
     }
     
@@ -166,20 +171,18 @@ public class ClientGUI extends javax.swing.JFrame {
                 }
             } 
             
-            //Elimina la IP del servidor caido.
-            listaClientesConectados.remove(ipServidorActual);
-            
             if (ipServidor.equals(ipLocal)) {
                 this.levantarServidor();
             }
             else {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 
-                this.connectionRMI();
+                while (this.connectionRMI() == false){
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 
             }
             
@@ -247,10 +250,21 @@ public class ClientGUI extends javax.swing.JFrame {
             ServidorRMI.sleep(1000);
 
             System.out.println("Servidor encendido en: " + ipLocal);
+            
+         
+            listaClientesConectados.remove(ipLocal);
+            this.connectionRMI();
+            
 
             //registro = LocateRegistry.getRegistry(ipLocal, 1099);
             //listaNodo = (IRemoto) registro.lookup("Nodos");
-            this.connectionRMI();
+                //Se obtiene el arreglo global de las IP's de los clientes
+                //conectados.
+                //Se actualiza la lista global de todos los clientes.
+                //listaClientesConectados.remove(ipLocal);
+                //listaClientesConectados = listaNodo.getListaIps();
+                //listaNodo.setListaIps(listaClientesConectados);              
+            
             
             this.showServerResources();
             
@@ -263,7 +277,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }
     
     //metodo usado por la clase ciente_nodo para refrescar la interfaz
-    private void connectionRMI() {
+    private boolean connectionRMI() {
         //Se utiliza REGEX para validar si es una IP o si es localhost.
         if (ipServidor.matches("\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b") || 
                 ipServidor.equals("localhost")) {
@@ -271,25 +285,22 @@ public class ClientGUI extends javax.swing.JFrame {
                 registro = LocateRegistry.getRegistry(ipServidor, 1099);
                 listaNodo = (IRemoto) registro.lookup("Nodos");       
 
-                //Se obtiene el arreglo global de las IP's de los clientes
-                //conectados.
-                //Se actualiza la lista global de todos los clientes.
-                listaClientesConectados = listaNodo.getListaIps();
-                listaClientesConectados.add(ipLocal);
+                this.showChatResources();
                 listaNodo.setListaIps(listaClientesConectados);
                 
-                
-                this.showChatResources();
-                
-                refresh.start();
-                updateIpList.start();
+                if (!refresh.isAlive() && !updateIpList.isAlive()){
+                    this.refresh.start();
+                    this.updateIpList.start();
+                }
                 
             } catch (NotBoundException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RemoteException ex) {
                 
-                this.disposeChatResources();
+                //this.disposeChatResources();
                 this.grandulon();
+                
+                return false;
             }
         }
         
@@ -297,6 +308,7 @@ public class ClientGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Introduzca una IP valida");
         }
         
+        return true;
         
     }
     
@@ -334,8 +346,6 @@ public class ClientGUI extends javax.swing.JFrame {
                     updateIpList.sleep(10000);
                 } catch (RemoteException ex) {
                     connectionRMI();
-                    //grandulon();
-                    //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -943,8 +953,8 @@ public class ClientGUI extends javax.swing.JFrame {
             
             //this.grandulon();
             //this.levantarServidor();
-            this.connectionRMI();
-            //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+            //this.connectionRMI();
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
