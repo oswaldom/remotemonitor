@@ -50,7 +50,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private static ArrayList<String> listaClientesConectados;
     private static ArrayList<Integer> listaUltimoOcteto;
     
-    private boolean servidor = false;
+    private boolean servidor;
     
     Registry registro = null;
     DefaultListModel listModel = null;
@@ -88,7 +88,9 @@ public class ClientGUI extends javax.swing.JFrame {
         //Inicializando las variables.
         listaClientesConectados = new ArrayList();
         listaUltimoOcteto = new ArrayList();
+        servidor = false;
         
+        ipLocal = "";
         updateIpList = new UpdateIpList();
         refresh = new RefreshStats();
         
@@ -97,6 +99,7 @@ public class ClientGUI extends javax.swing.JFrame {
             public void windowClosing(WindowEvent we) {
                 try {
                     ControlClient.removeUser();
+                    listaNodo.removeListaIps(ipLocal);
                     if (socket != null)
                         socket.close();
                     System.exit(0);
@@ -299,6 +302,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     this.refresh.start();
                     this.updateIpList.start();
                 }
+                System.out.println(servidor);
                 
             } catch (NotBoundException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -354,9 +358,10 @@ public class ClientGUI extends javax.swing.JFrame {
                 } catch (RemoteException ex) {
                     while (connectionRMI() == false){
                         try {
-                            grandulon();
+                            
                             Thread.sleep(10000);
                             System.out.println("WHILIEANDO");
+                            grandulon();
                         } catch (InterruptedException ex1) {
                             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
                         }
@@ -396,6 +401,7 @@ public class ClientGUI extends javax.swing.JFrame {
                             grandulon();
                             Thread.sleep(10000);
                             System.out.println("WHILIEANDO");
+                            grandulon();
                         } catch (InterruptedException ex1) {
                             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex1);
                         }
