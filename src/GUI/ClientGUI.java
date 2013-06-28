@@ -178,7 +178,7 @@ public class ClientGUI extends javax.swing.JFrame {
             }
             else {
                 
-                while (this.connectionRMI() == false){
+                if (this.connectionRMI() == false){
                     try {
                         Thread.sleep(10000);
                         System.out.println("Intentando conectar a RMI...");
@@ -434,7 +434,6 @@ public class ClientGUI extends javax.swing.JFrame {
                 this.jComboBox1.addItem(listaNodo.getListaNodos().get(i).getIp());
             }
         } catch (RemoteException ex) {
-            System.out.println("FLAG LLENANDO COMBO BOX!!!");
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
