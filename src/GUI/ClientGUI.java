@@ -125,7 +125,9 @@ public class ClientGUI extends javax.swing.JFrame {
             
         }
         
-        connectionRMI();
+        if (connectionRMI() == false) {
+           this.grandulon();
+        }
         
     }
     
@@ -176,6 +178,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 while (this.connectionRMI() == false){
                     try {
                         Thread.sleep(10000);
+                        System.out.println("Intentando conectar a RMI...");
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -284,9 +287,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 listaNodo = (IRemoto) registro.lookup("Nodos");       
 
                 this.showChatResources();
-                
                 listaClientesConectados = listaNodo.getListaIps();
-                if (!servidor) {
+                if (servidor == false) {
                     listaClientesConectados.add(ipLocal);
                 }
                 listaNodo.setListaIps(listaClientesConectados);
@@ -302,7 +304,7 @@ public class ClientGUI extends javax.swing.JFrame {
             } catch (RemoteException ex) {
                 
                 //this.disposeChatResources();
-                this.grandulon();
+                //this.grandulon();
                 
                 return false;
             }
