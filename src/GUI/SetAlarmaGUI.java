@@ -25,11 +25,14 @@ public class SetAlarmaGUI extends javax.swing.JDialog {
     public SetAlarmaGUI(ClientGUI parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        this.nodoSeleccionado = parent.nodoSeleccionado;
-        this.alarmaNodo = new Alarma();
         this.setLocation(parent.getLocation());
+        
+        this.alarmaNodo = new Alarma();
         this.jLabelNodoSeleccionado.setText(parent.nodoSeleccionado.getIp());
+    }
+
+    public Alarma getAlarmaNodo() {
+        return alarmaNodo;
     }
     
     /**
@@ -139,13 +142,12 @@ public class SetAlarmaGUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (this.jTextField1.equals("") && this.jTextField2.equals("")) {
+        if (this.jTextField1.getText().equals("") && this.jTextField2.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Error, introduzca valores.");
         } else {
             alarmaNodo.setCpuMaximaPermitida(Double.parseDouble(this.jTextField1.getText()));
             alarmaNodo.setRamMaximaPermitida(Double.parseDouble(this.jTextField2.getText()));
             if (JOptionPane.showConfirmDialog(this, "Seguro que desea crear la alarma?") == 0){
-                nodoSeleccionado.setAlarma(alarmaNodo);
                 this.dispose();
             }
             

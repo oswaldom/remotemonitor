@@ -19,6 +19,11 @@ public class Nodo implements Serializable{
     private ArrayList<Proceso> listaProcesos = null;
     private Alarma alarma;
 
+    public Nodo() {
+        this.alarma = null;
+    }
+    
+
     public String getId() {
         return id;
     }

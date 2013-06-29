@@ -34,6 +34,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import server.ServidorChat;
 import server.ServidorRMI;
+import services.GeoIP;
 
 /**
  *
@@ -393,8 +394,9 @@ public class ClientGUI extends javax.swing.JFrame {
                     if (listaNodo.getListaNodos().get(nodoGlobal) != null) {
                         
                         mostrarInformacionNodo();
+                        checkAlarms();
                         fillComboBoxNodos();
-                        //checkAlarms();
+                        
                         
                     }
                         //Sleep 1 minuto.
@@ -463,12 +465,20 @@ public class ClientGUI extends javax.swing.JFrame {
     }
     
     public void checkAlarms() {
-        if (nodoSeleccionado.getAlarma().getCpuMaximaPermitida() != null){
-        String nodoCPU = jTextFieldCPUNodo.getText().replace(",", ".");
-        String nodoRAM = jTextFieldRAMUsadaNodo.getText().replace("M", "");
-            System.out.println("nodoCPU");
-        if (Double.parseDouble(nodoCPU) > nodoSeleccionado.getAlarma().getCpuMaximaPermitida()){
-            JOptionPane.showMessageDialog(this, "Se cago la CPU");
+        if(this.jComboBox1.getSelectedIndex() >= 0){
+        if (nodoSeleccionado.getAlarma() != null){
+            String nodoCPU = jTextFieldCPUNodo.getText().replace(",", ".");
+            String nodoRAM = jTextFieldRAMUsadaNodo.getText().replace("M", "");
+            if (Double.parseDouble(nodoCPU) > nodoSeleccionado.getAlarma().getCpuMaximaPermitida()){
+                JOptionPane.showMessageDialog(this, "El nodo " 
+                        + nodoSeleccionado.getIp() 
+                        + " ha excedido el maximo % de CPU");
+            }
+            if (Double.parseDouble(nodoRAM) > nodoSeleccionado.getAlarma().getRamMaximaPermitida()){
+                JOptionPane.showMessageDialog(this, "El nodo " 
+                        + nodoSeleccionado.getIp()
+                        + " ha excedido el maximo % de RAM");
+            }
         }
         }
     }
@@ -585,6 +595,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jTextAreaProcesos = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
         jButtonSetAlarma = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -720,7 +731,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGroup(jPanelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldChat, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
 
         jPanelMonitor.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion nodos"));
@@ -794,6 +805,13 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Web Service");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelMonitorLayout = new javax.swing.GroupLayout(jPanelMonitor);
         jPanelMonitor.setLayout(jPanelMonitorLayout);
         jPanelMonitorLayout.setHorizontalGroup(
@@ -834,7 +852,8 @@ public class ClientGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton5))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelMonitorLayout.createSequentialGroup()
                         .addGap(263, 263, 263)
                         .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -859,7 +878,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelMonitorLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -993,6 +1013,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             this.mostrarInformacionNodo();
+            this.checkAlarms();
         } catch (RemoteException ex) {
             
             //this.grandulon();
@@ -1049,9 +1070,16 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonSetAlarmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSetAlarmaActionPerformed
-        new SetAlarmaGUI(this, true).setVisible(true);
-        nodoSeleccionado.getAlarma().getCpuMaximaPermitida();
+        SetAlarmaGUI setAlarma = new SetAlarmaGUI(this, true);
+        setAlarma.setVisible(true);
+        nodoSeleccionado.setAlarma(setAlarma.getAlarmaNodo());
     }//GEN-LAST:event_jButtonSetAlarmaActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        GeoIP geoIp = getGeoIP(JOptionPane.showInputDialog("Introduzca la IP:"));
+        System.out.println(geoIp.getCountryName());
+        System.out.println(geoIp.getReturnCode());
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1102,6 +1130,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButtonAdminConsole;
     private javax.swing.JButton jButtonConnectChat;
     private javax.swing.JButton jButtonDisconnectChat;
@@ -1134,4 +1163,10 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldRAMUsadaNodo;
     private javax.swing.JTextField textfieldIpNodo;
     // End of variables declaration//GEN-END:variables
+
+    private static GeoIP getGeoIP(java.lang.String ipAddress) {
+        services.GeoIPService service = new services.GeoIPService();
+        services.GeoIPServiceSoap port = service.getGeoIPServiceSoap();
+        return port.getGeoIP(ipAddress);
+    }
 }

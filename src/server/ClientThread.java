@@ -71,12 +71,11 @@ public class ClientThread implements Runnable, ListDataListener {
                 /* Read everything that comes from the client*/ 
                 String texto = dataInput.readUTF(); 
                 
-                /*Split the message that comes from the user and puts ir in an
+                /*Split the message that comes from the user and puts it in an
                  array*/
                 String[] result = texto.split("&");
                 
                 String action = result[0]; //Action
-                System.out.println(action);
 
                 if (action.equals("addUser")) {
                     String nick = result[1];

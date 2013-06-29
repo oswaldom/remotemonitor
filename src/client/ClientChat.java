@@ -1,7 +1,6 @@
 package client;
 
 import GUI.ClientGUI;
-import GUI.PanelClientGUI;
 import java.net.Socket;
 
 public class ClientChat {
