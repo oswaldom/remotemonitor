@@ -60,7 +60,7 @@ public class ClientThread implements Runnable, ListDataListener {
     }
 
     /**
-     * Manages the conversation. Takes care of everything that happens.
+     * The thread listen everything that happens.
      */
     @Override
     public void run() {

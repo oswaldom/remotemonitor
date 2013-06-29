@@ -24,7 +24,7 @@ public class ControlClient implements Runnable {
             dataOutput = new DataOutputStream(socket.getOutputStream());
             sendNick();
             getUsersFromServer();
-            getHistorialFromServer();
+            //getHistorialFromServer();
             Thread hilo = new Thread(this);
             hilo.start();
 

@@ -649,6 +649,11 @@ public class ClientGUI extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        jListSalas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListSalasValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(jListSalas);
 
         jLabel6.setText("Salas:");
@@ -894,7 +899,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(textfieldIpNodo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1107,6 +1112,10 @@ public class ClientGUI extends javax.swing.JFrame {
         System.out.println(geoIp.getCountryName());
         System.out.println(geoIp.getReturnCode());
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jListSalasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListSalasValueChanged
+        this.jTextAreaChat.setText("");
+    }//GEN-LAST:event_jListSalasValueChanged
 
     /**
      * @param args the command line arguments

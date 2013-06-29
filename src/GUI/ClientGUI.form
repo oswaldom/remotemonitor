@@ -226,6 +226,9 @@
                   <Connection code="new javax.swing.AbstractListModel() {&#xa;    String[] strings = { &quot;Administradores SO&quot;, &quot;Administradores BD&quot;, &quot;Personal monitoreo&quot; };&#xa;    public int getSize() { return strings.length; }&#xa;    public Object getElementAt(int i) { return strings[i]; }&#xa;}" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="jListSalasValueChanged"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
