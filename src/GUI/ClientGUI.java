@@ -6,7 +6,9 @@ package GUI;
 
 import client.ClientChat;
 import client.ControlClient;
+import dominio.Alarma;
 import dominio.IRemoto;
+import dominio.Nodo;
 import dominio.Proceso;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
@@ -45,7 +47,8 @@ public class ClientGUI extends javax.swing.JFrame {
     private static String ipServidor;
     private static String ipLocal;
     private static String nick;
-    private static String sala;   
+    private static String sala;  
+    private static Alarma alarma;
     
     private static ArrayList<String> listaClientesConectados;
     private static ArrayList<Integer> listaUltimoOcteto;
@@ -62,6 +65,7 @@ public class ClientGUI extends javax.swing.JFrame {
     ControlClient control;
     ClientChat client;
     UpdateIpList updateIpList;
+    Nodo nodoSeleccionado;
     
     /**
      * Creates new form ClientGUI
@@ -390,7 +394,8 @@ public class ClientGUI extends javax.swing.JFrame {
                         
                         mostrarInformacionNodo();
                         fillComboBoxNodos();
-
+                        //checkAlarms();
+                        
                     }
                         //Sleep 1 minuto.
                         refresh.sleep(1000 * 60);
@@ -440,20 +445,31 @@ public class ClientGUI extends javax.swing.JFrame {
             ArrayList<Proceso> listaProc = listaNodo.getListaNodos().get(nodoGlobal).getListaProcesos();
                
 
-                String procesos = "";
-                for (int i = 0; i < listaProc.size() && i != 300; i++) {
+            String procesos = "";
+            for (int i = 0; i < listaProc.size() && i != 300; i++) {
 
 
-                    procesos = procesos
-                            + "(ID): " + listaProc.get(i).getPid()
-                            + " --- CPU: " + listaProc.get(i).getCpu()
-                            + " --- RAM: " + listaProc.get(i).getRam()
-                            + " --- Estado: " + listaProc.get(i).getState()
-                            + "\n";
-                }
+                procesos = procesos
+                        + "(ID): " + listaProc.get(i).getPid()
+                        + " --- CPU: " + listaProc.get(i).getCpu()
+                        + " --- RAM: " + listaProc.get(i).getRam()
+                        + " --- Estado: " + listaProc.get(i).getState()
+                        + "\n";
+            }
                 
-                this.jTextAreaProcesos.setText(procesos);
-           
+            this.jTextAreaProcesos.setText(procesos);
+            
+        }
+    }
+    
+    public void checkAlarms() {
+        if (nodoSeleccionado.getAlarma().getCpuMaximaPermitida() != null){
+        String nodoCPU = jTextFieldCPUNodo.getText().replace(",", ".");
+        String nodoRAM = jTextFieldRAMUsadaNodo.getText().replace("M", "");
+            System.out.println("nodoCPU");
+        if (Double.parseDouble(nodoCPU) > nodoSeleccionado.getAlarma().getCpuMaximaPermitida()){
+            JOptionPane.showMessageDialog(this, "Se cago la CPU");
+        }
         }
     }
     
@@ -568,6 +584,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextAreaProcesos = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
+        jButtonSetAlarma = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -703,7 +720,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGroup(jPanelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldChat, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addGap(0, 19, Short.MAX_VALUE))
         );
 
         jPanelMonitor.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion nodos"));
@@ -770,18 +787,26 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonSetAlarma.setText("Set Alarms");
+        jButtonSetAlarma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSetAlarmaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelMonitorLayout = new javax.swing.GroupLayout(jPanelMonitor);
         jPanelMonitor.setLayout(jPanelMonitorLayout);
         jPanelMonitorLayout.setHorizontalGroup(
             jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMonitorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
-                .addGap(237, 237, 237))
             .addGroup(jPanelMonitorLayout.createSequentialGroup()
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelMonitorLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(127, 127, 127)
+                        .addComponent(jButtonSetAlarma))
                     .addGroup(jPanelMonitorLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -831,7 +856,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(textfieldIpNodo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -859,7 +884,8 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButtonSetAlarma))
                 .addGap(13, 13, 13))
         );
 
@@ -983,14 +1009,16 @@ public class ClientGUI extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         if(this.jComboBox1.getSelectedIndex() >= 0){
             nodoGlobal = this.jComboBox1.getSelectedIndex();
-
+            
             try {
+                nodoSeleccionado = this.listaNodo.getListaNodos().get(this.jComboBox1.getSelectedIndex());
                 mostrarInformacionNodo();
             } catch (RemoteException ex) {
-                this.levantarServidor();
-                this.connectionRMI();
-                //Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                //this.levantarServidor();
+                //this.connectionRMI();
+                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -1019,6 +1047,11 @@ public class ClientGUI extends javax.swing.JFrame {
             System.out.println("Lista de Ip: Ip "+i+" "+listaClientesConectados.get(i));
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButtonSetAlarmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSetAlarmaActionPerformed
+        new SetAlarmaGUI(this, true).setVisible(true);
+        nodoSeleccionado.getAlarma().getCpuMaximaPermitida();
+    }//GEN-LAST:event_jButtonSetAlarmaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1072,6 +1105,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAdminConsole;
     private javax.swing.JButton jButtonConnectChat;
     private javax.swing.JButton jButtonDisconnectChat;
+    private javax.swing.JButton jButtonSetAlarma;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBoxUsers;
     private javax.swing.JLabel jLabel1;
