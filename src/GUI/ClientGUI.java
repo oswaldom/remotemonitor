@@ -964,10 +964,13 @@ public class ClientGUI extends javax.swing.JFrame {
         this.jButtonConnectChat.setEnabled(true);
         this.jTextFieldChat.setEnabled(false);
         this.jTextFieldChat.setEnabled(false);
+        this.jTextAreaChat.setVisible(false);
         this.jButtonDisconnectChat.setEnabled(false);
         this.jComboBoxUsers.removeAllItems();
         this.jComboBoxUsers.addItem("Todos");
         this.jListSalas.setVisible(true);
+        this.jLabelNick.setText("");
+        this.jLabelSala.setText("");
     }//GEN-LAST:event_jButtonDisconnectChatActionPerformed
 
     private void jButtonConnectChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectChatActionPerformed
@@ -998,7 +1001,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 this.jButtonConnectChat.setEnabled(false);
                 this.jButtonDisconnectChat.setEnabled(true);
                 this.jListSalas.setVisible(false);
-                this.jTextAreaChat.setText("");
+                this.jTextAreaChat.setVisible(true);
                 
             }
                 
