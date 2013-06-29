@@ -76,7 +76,7 @@ public class ClientGUI extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);
         this.disposeServerResources();
-        this.jButtonSend.setEnabled(false);
+        this.jButton1.setEnabled(false);
         this.jButtonDisconnectChat.setEnabled(false);
         
         jComboBoxUsers.addItem("Todos");
@@ -124,7 +124,7 @@ public class ClientGUI extends javax.swing.JFrame {
         }       
         
         if (!"".equals(ipServidor)) {
-            this.jButtonSend.setEnabled(true);
+            this.jButton1.setEnabled(true);
             this.textfieldIpNodo.setEnabled(true);
 
             this.jComboBox1.setEnabled(true);
@@ -563,7 +563,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jListSalas = new javax.swing.JList();
         jLabel6 = new javax.swing.JLabel();
         jButtonConnectChat = new javax.swing.JButton();
-        jButtonSend = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jButtonAdminConsole = new javax.swing.JButton();
         jPanelMonitor = new javax.swing.JPanel();
         jLabelServer = new javax.swing.JLabel();
@@ -630,10 +630,10 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
-        jButtonSend.setText("Send");
-        jButtonSend.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Send");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSendActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -672,7 +672,7 @@ public class ClientGUI extends javax.swing.JFrame {
                             .addGroup(jPanelChatLayout.createSequentialGroup()
                                 .addComponent(jTextFieldChat, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonSend)
+                                .addComponent(jButton1)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanelChatLayout.createSequentialGroup()
                         .addGroup(jPanelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -856,7 +856,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(textfieldIpNodo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -920,7 +920,7 @@ public class ClientGUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.jButtonSend.setEnabled(false);
+        this.jButton1.setEnabled(false);
         this.jComboBoxUsers.setEnabled(false);
         this.jButtonConnectChat.setEnabled(true);
         this.jTextFieldChat.setEnabled(false);
@@ -955,7 +955,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 jLabelSala.setEnabled(true);
                 jTextAreaChat.setEnabled(true);
                 jTextFieldChat.setEnabled(true);
-                jButtonSend.setEnabled(true);
+                jButton1.setEnabled(true);
                 this.jButtonConnectChat.setEnabled(false);
                 this.jButtonDisconnectChat.setEnabled(true);
                 this.jListSalas.setVisible(false);
@@ -1022,7 +1022,7 @@ public class ClientGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String cadena = jTextAreaChat.getText();        
         
         if(cadena.contains(nick) && cadena.contains("expulsado")) {
@@ -1035,7 +1035,7 @@ public class ClientGUI extends javax.swing.JFrame {
             ControlClient.actionInterface();
             this.jTextFieldChat.requestFocus();
         }
-    }//GEN-LAST:event_jButtonSendActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBoxUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxUsersActionPerformed
          if((this.jComboBoxUsers.getSelectedIndex() >= 0) && (servidor == true)){
@@ -1103,6 +1103,7 @@ public class ClientGUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
