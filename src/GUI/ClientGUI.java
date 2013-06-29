@@ -719,7 +719,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldChat, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSend))
+                    .addComponent(jButton1))
                 .addGap(0, 19, Short.MAX_VALUE))
         );
 
@@ -856,7 +856,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(textfieldIpNodo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1055,6 +1055,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void jButtonSetAlarmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSetAlarmaActionPerformed
         new SetAlarmaGUI(this, true).setVisible(true);
+        nodoSeleccionado.getAlarma().getCpuMaximaPermitida();
     }//GEN-LAST:event_jButtonSetAlarmaActionPerformed
 
     /**
@@ -1108,7 +1109,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAdminConsole;
     private javax.swing.JButton jButtonConnectChat;
     private javax.swing.JButton jButtonDisconnectChat;
-    private javax.swing.JButton jButtonSend;
     private javax.swing.JButton jButtonSetAlarma;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBoxUsers;
