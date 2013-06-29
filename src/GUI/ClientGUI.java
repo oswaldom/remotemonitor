@@ -482,6 +482,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 
                 
             }
+            
             if (Double.parseDouble(nodoRAM) > nodoSeleccionado.getAlarma().getRamMaximaPermitida()){
                 JOptionPane.showMessageDialog(this, "El nodo " 
                         + nodoSeleccionado.getIp()
