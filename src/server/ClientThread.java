@@ -89,7 +89,16 @@ public class ClientThread implements Runnable, ListDataListener {
                             response += "&" + ServidorChat.usersList.get(i);
                         }
                     }
-                } else if (action.equals("publicMessage")) {
+                } else if (action.equals("getHistorialList")) {
+
+                    String historialText = result[1];
+                    response = "getHistorialList&" + historialText;
+                    for (int i = 0; i < ServidorChat.historialChatList.size(); i++) {
+                        response += "&" + ServidorChat.historialChatList.get(i);
+                        
+                    }
+                } 
+                else if (action.equals("publicMessage")) {
                     response = "publicMessage&" + result[1] + "&" + result[2];
                 } else if (action.equals("privateMessage")) {
                     response = "privateMessage&" + result[1] + "&" + result[2] 

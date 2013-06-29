@@ -16,6 +16,7 @@ public class ServidorChat extends Thread {
     private DefaultListModel chat = new DefaultListModel();
     /*List of all users*/
     public static List usersList = new ArrayList();
+    public static List historialChatList = new ArrayList();
     
     //Numero de puerto por defecto (Sala Administradores SO)
     private static int puerto = 5000;   

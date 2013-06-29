@@ -4,6 +4,7 @@ import GUI.ClientGUI;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import server.ServidorChat;
 
 public class ControlClient implements Runnable {
 
@@ -23,6 +24,7 @@ public class ControlClient implements Runnable {
             dataOutput = new DataOutputStream(socket.getOutputStream());
             sendNick();
             getUsersFromServer();
+            getHistorialFromServer();
             Thread hilo = new Thread(this);
             hilo.start();
 
@@ -54,6 +56,15 @@ public class ControlClient implements Runnable {
             e.getMessage();
         }
     }
+    
+    public static void getHistorialFromServer() {
+        try {
+            dataOutput.writeUTF("gt&" + nick);
+            dataOutput.flush();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
 
     public static void removeUser() {
         try {
@@ -78,8 +89,7 @@ public class ControlClient implements Runnable {
         try {
             if (panel.getSelectedUser().equals("Todos")) {
                 dataOutput.writeUTF("publicMessage&" + nick + "&" + panel.getTexto());                
-                if(panel.getTexto().startsWith("*all"))
-                    System.out.println("Mensaje a todos; Broadcasting");
+                ServidorChat.historialChatList.add(panel.getTexto());
             } 
             else {
                 dataOutput.writeUTF("privateMessage&" + nick + "&" + panel.getSelectedUser() + "&" + panel.getTexto());
@@ -104,6 +114,7 @@ public class ControlClient implements Runnable {
                 String chat;
                 
                 panel.setSala(sala);
+                System.out.println(action);
                 
                 if (action.equals("addUser")) {
                     String nickResponse = result[1];
@@ -120,7 +131,14 @@ public class ControlClient implements Runnable {
                             panel.fillCombo(nickResponse);
                         }
                     }
-                } else if (action.equals("publicMessage")) {
+                } if (action.equals("getHistorialList")) {
+                    for (int i = 2; i < result.length; i++) {
+                        String historialText = result[i];
+                        panel.setHistorialChat(historialText);
+                        
+                    }
+                }
+                else if (action.equals("publicMessage")) {
                     panel.addText(result[1] + " dice: " + result[2]);
                     panel.addText("\n");
                 } else if (action.equals("privateMessage")) {

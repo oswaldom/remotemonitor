@@ -473,11 +473,25 @@ public class ClientGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "El nodo " 
                         + nodoSeleccionado.getIp() 
                         + " ha excedido el maximo % de CPU");
+                
+                jTextFieldChat.setText("El nodo " 
+                        + nodoSeleccionado.getIp() 
+                        + " ha excedido el maximo % de CPU");
+                ControlClient.actionInterface();
+                jTextFieldChat.setText("");
+                
+                
             }
             if (Double.parseDouble(nodoRAM) > nodoSeleccionado.getAlarma().getRamMaximaPermitida()){
                 JOptionPane.showMessageDialog(this, "El nodo " 
                         + nodoSeleccionado.getIp()
                         + " ha excedido el maximo % de RAM");
+                
+                jTextFieldChat.setText("El nodo " 
+                        + nodoSeleccionado.getIp() 
+                        + " ha excedido el maximo % de RAM");
+                ControlClient.actionInterface();
+                jTextFieldChat.setText("");
             }
         }
         }
@@ -505,6 +519,10 @@ public class ClientGUI extends javax.swing.JFrame {
 
     public void fillCombo(String user) {
         jComboBoxUsers.addItem(user);
+    }
+    
+    public void setHistorialChat(String historialText){
+        jTextAreaChat.append(historialText);
     }
 
     /**
@@ -964,7 +982,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 
                 nick = JOptionPane.showInputDialog("Introduzca un nickname:");
                 
-                System.out.println("Puerto para cliente: "+PORT);
+                System.out.println(nick + " conectado a la sala: " + sala);
                 client = new ClientChat(PORT, ipServidor, nick, sala, this);
                 
                 socket = client.getSocket();
@@ -1046,16 +1064,16 @@ public class ClientGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String cadena = jTextAreaChat.getText();        
         
-        if(cadena.contains(nick) && cadena.contains("expulsado")) {
-            jTextAreaChat.setText("");
-            jTextAreaChat.setText("Lo siento, has sido explusado de esta sala\n");
-            
-            jButtonDisconnectChatActionPerformed(evt);
-        }
-        else {
-            ControlClient.actionInterface();
-            this.jTextFieldChat.requestFocus();
-        }
+            if(cadena.contains(nick) && cadena.contains("expulsado")) {
+                jTextAreaChat.setText("");
+                jTextAreaChat.setText("Lo siento, has sido explusado de esta sala\n");
+
+                jButtonDisconnectChatActionPerformed(evt);
+            }
+            else {
+                ControlClient.actionInterface();
+                this.jTextFieldChat.requestFocus();
+            }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBoxUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxUsersActionPerformed
