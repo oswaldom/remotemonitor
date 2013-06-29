@@ -47,8 +47,6 @@ public class AdminConsole extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jComboBoxAllUsers = new javax.swing.JComboBox();
         jPanelUserInfo = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextFieldNickUser = new javax.swing.JTextField();
         jButtonKickUser = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -67,12 +65,17 @@ public class AdminConsole extends javax.swing.JDialog {
 
         jPanelUserInfo.setBorder(javax.swing.BorderFactory.createTitledBorder("User information"));
 
-        jLabel2.setText("Nick:");
-
         jButtonKickUser.setText("Kick");
         jButtonKickUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonKickUserActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Exit");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -81,35 +84,21 @@ public class AdminConsole extends javax.swing.JDialog {
         jPanelUserInfoLayout.setHorizontalGroup(
             jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUserInfoLayout.createSequentialGroup()
-                .addGroup(jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelUserInfoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addGap(62, 62, 62)
-                        .addComponent(jTextFieldNickUser, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelUserInfoLayout.createSequentialGroup()
-                        .addGap(126, 126, 126)
-                        .addComponent(jButtonKickUser)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(66, 66, 66)
+                .addComponent(jButtonKickUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(53, 53, 53))
         );
         jPanelUserInfoLayout.setVerticalGroup(
             jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelUserInfoLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUserInfoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextFieldNickUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addComponent(jButtonKickUser)
-                .addContainerGap(42, Short.MAX_VALUE))
+                    .addComponent(jButtonKickUser)
+                    .addComponent(jButton1))
+                .addGap(82, 82, 82))
         );
-
-        jButton1.setText("Exit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanelAdminConsoleLayout = new javax.swing.GroupLayout(jPanelAdminConsole);
         jPanelAdminConsole.setLayout(jPanelAdminConsoleLayout);
@@ -122,10 +111,7 @@ public class AdminConsole extends javax.swing.JDialog {
                     .addGroup(jPanelAdminConsoleLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBoxAllUsers, 0, 161, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAdminConsoleLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(jComboBoxAllUsers, 0, 161, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelAdminConsoleLayout.setVerticalGroup(
@@ -136,10 +122,8 @@ public class AdminConsole extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(jComboBoxAllUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanelUserInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addComponent(jPanelUserInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -155,8 +139,8 @@ public class AdminConsole extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelAdminConsole, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanelAdminConsole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,6 +152,7 @@ public class AdminConsole extends javax.swing.JDialog {
 
     private void jButtonKickUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKickUserActionPerformed
         ControlClient.kickUser(usuarioSeleccionado);
+        this.dispose();
     }//GEN-LAST:event_jButtonKickUserActionPerformed
 
     private void jComboBoxAllUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAllUsersActionPerformed
@@ -178,7 +163,6 @@ public class AdminConsole extends javax.swing.JDialog {
                 jButtonKickUser.setEnabled(false);
             else {
                 jButtonKickUser.setEnabled(true);
-                jTextFieldNickUser.setText(usuarioSeleccionado);
             }
         }
     }//GEN-LAST:event_jComboBoxAllUsersActionPerformed
@@ -229,9 +213,7 @@ public class AdminConsole extends javax.swing.JDialog {
     private javax.swing.JButton jButtonKickUser;
     private javax.swing.JComboBox jComboBoxAllUsers;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelAdminConsole;
     private javax.swing.JPanel jPanelUserInfo;
-    private javax.swing.JTextField jTextFieldNickUser;
     // End of variables declaration//GEN-END:variables
 }

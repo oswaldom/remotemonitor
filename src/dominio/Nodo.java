@@ -17,6 +17,7 @@ public class Nodo implements Serializable{
     private String memLibre = "";
     private String fileSystem = "";
     private ArrayList<Proceso> listaProcesos = null;
+    private Alarma alarma;
 
     public String getId() {
         return id;
@@ -80,6 +81,14 @@ public class Nodo implements Serializable{
 
     public void setListaProcesos(ArrayList<Proceso> listaProcesos) {
         this.listaProcesos = listaProcesos;
+    }
+
+    public Alarma getAlarma() {
+        return alarma;
+    }
+
+    public void setAlarma(Alarma alarma) {
+        this.alarma = alarma;
     }
     
 }
