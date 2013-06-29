@@ -875,7 +875,7 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(textfieldIpNodo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanelMonitorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1044,13 +1044,18 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String cadena = jTextAreaChat.getText();
-        System.out.println("Historial: "+cadena);
-        //if(jTextAreaChat.get)
+        String cadena = jTextAreaChat.getText();        
         
-        ControlClient.actionInterface();
-        this.jTextFieldChat.requestFocus();
-        
+        if(cadena.contains(nick) && cadena.contains("expulsado")) {
+            jTextAreaChat.setText("");
+            jTextAreaChat.setText("Lo siento, has sido explusado de esta sala\n");
+            
+            jButtonDisconnectChatActionPerformed(evt);
+        }
+        else {
+            ControlClient.actionInterface();
+            this.jTextFieldChat.requestFocus();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBoxUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxUsersActionPerformed
